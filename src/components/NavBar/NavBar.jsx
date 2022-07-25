@@ -1,11 +1,19 @@
 import { Link } from 'react-router-dom'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 
 const NavBar = ({ user, handleLogout }) => {
   const [navBar, setNavBar]= useState(true)
 
+
+
   const toggleNavBar=()=>{
     setNavBar(!navBar)
+  }
+
+  window.onscroll = function(ev) {
+    if ((window.innerHeight + window.scrollY) >= document.body.scrollHeight) {
+      toggleNavBar()
+    }
   }
 
   return (
@@ -13,14 +21,14 @@ const NavBar = ({ user, handleLogout }) => {
       {navBar ?
         <nav className='navBar'>
           <ul>
-            <button onClick={toggleNavBar} style={{background: 'transparent', color:'white'}}>•••</button>
+            <button onClick={toggleNavBar} style={{background: 'transparent', color:'white', border: 'none'}}>•••</button>
           </ul>
         </nav>
       :
         <nav>
           {user ?
             <ul>
-             <li>Welcome, {user?.name}</li>
+             <li>Welcome, {user.name}</li>
              <li><Link to="/profiles">Profiles</Link></li>
              <li><Link to="" onClick={handleLogout}>LOG OUT</Link></li>
              <li><Link to="/changePassword">Change Password</Link></li>
